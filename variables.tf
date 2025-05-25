@@ -3,6 +3,12 @@ variable "aws_region" {
   type = string
 }
 
+variable "name_prefix" {
+  description = "Prefix for resource names"
+  type = string
+  default = "ce-grp-4"
+  
+}
 variable "vpc_cidr_block" {
   description = "CIDR block for VPC"
   type = string

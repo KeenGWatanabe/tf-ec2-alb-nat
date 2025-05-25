@@ -2,7 +2,7 @@
 resource "aws_security_group" "alb_sg" {
   name        = "alb-security-group"
   description = "Allow HTTP/HTTPS traffic to ALB"
-  vpc_id      = aws_vpc.roger_vpc.id # Replace with your VPC ID
+  vpc_id      = aws_vpc.main.id # Replace with your VPC ID
      ingress {
      from_port   = 80
      to_port     = 80
@@ -31,7 +31,7 @@ resource "aws_lb" "app_lb" {
   internal           = false  # internet-facing
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = aws_subnet.roger_public_subnet[*].id # Replace with your public subnet IDs
+  subnets            = aws_subnet.public_subnet[*].id # Replace with your public subnet IDs
   enable_deletion_protection = false
   tags = {
     Name = "app-lb"
@@ -42,7 +42,7 @@ resource "aws_lb_target_group" "app_tg" {
   name     = "app-target-group"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = aws_vpc.roger_vpc.id # Replace with your VPC ID
+  vpc_id   = aws_vpc.main.id # Replace with your VPC ID
   health_check {
     path                = "/"
     protocol            = "HTTP"
@@ -60,7 +60,7 @@ resource "aws_lb_target_group" "app_tg" {
 resource "aws_lb_target_group_attachment" "app_tg_attachment" {
   count = var.settings.web_app.count #match count of ec2
   target_group_arn = aws_lb_target_group.app_tg.arn
-  target_id        = aws_instance.roger_web[count.index].id # Replace with your EC2 instance ID
+  target_id        = aws_instance.ec2_web[count.index].id # Replace with your EC2 instance ID
   port             = 80
 }
 # ALB Listener (HTTP) fwd traffic to target grp
