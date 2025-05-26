@@ -18,10 +18,10 @@ output "alb_dns_name" {
 
 output "vpc_ecr_endpoint" {
   description = "VPC ECR Endpoint"
-  value       = aws_vpc_endpoint.ecr_endpoint.dns_entry[0].dns_name
+  value       = aws_vpc_endpoint.ecr_api.dns_entry[0].dns_name
 }
 
 output "vpc_ecr_dkr_endpoint" {
   description = "VPC ECR DKR Endpoint"
-  value       = aws_vpc_endpoint.ecr_dkr_endpoint.dns_entry[0].dns_name
+  value       = aws_vpc_endpoint.ecr_dkr.dns_entry[0].dns_name
 }
